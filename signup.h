@@ -23,10 +23,11 @@ private slots:
     void on_pushButton_megse_clicked();
     void on_pushButton_ok_clicked();
     void checkLineEdits();
+    void regisztracio(QByteArray uzenet);
 
 signals:
     void textChanged();
-    void regisztracio(QString,QString,QString,QString,QString);
+    void regisztracioellenorzes(QString,QString,QString,QString,QString);
 
 private:
     Ui::SignUp *ui;

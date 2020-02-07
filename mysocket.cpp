@@ -1,6 +1,8 @@
 #include "mysocket.h"
 
 
+
+
 MySocket::MySocket(QObject *parent) : QObject(parent)
 {
 
@@ -33,7 +35,8 @@ void MySocket::connected()
     login->show();
 
     connect(login,SIGNAL(belepesellenorzes(QString,QString)),this,SLOT(belepesellenorzes(QString, QString)));
-
+    connect(login,SIGNAL(mainwindownyitas()),this,SLOT(mainwindownyitas()));
+    connect(login,SIGNAL(signupnyitas()),this,SLOT(signupnyitas()));
 }
 
 void MySocket::disconnected()
@@ -56,10 +59,34 @@ void MySocket::readyRead()
     {
         login->belepes(Data);
     }
+    if(Data.startsWith("REGISZTRACIO "))
+    {
+        emit regisztraciovalasz(Data);
+    }
 }
 
 void MySocket::belepesellenorzes(const QString &felhasznalonev, const QString &jelszo)
 {
     QByteArray data("BELEPES " + felhasznalonev.toLocal8Bit() + " " + jelszo.toLocal8Bit());
+    socket->write(data);
+}
+
+void MySocket::mainwindownyitas()
+{
+    MainWindow *w=new MainWindow();
+    w->show();
+}
+
+void MySocket::signupnyitas()
+{
+    SignUp *signup=new SignUp();
+    signup->show();
+    connect(signup,SIGNAL(regisztracioellenorzes(QString,QString,QString,QString,QString)),this,SLOT(regisztracioellenorzes(QString,QString,QString,QString,QString)));
+    connect(this,SIGNAL(regisztraciovalasz(QByteArray)),signup,SLOT(regisztracio(QByteArray)));
+}
+
+void MySocket::regisztracioellenorzes(const QString &felhasznalonev, const QString &nev, const QString &emailcim, const QString &telefonszam, const QString &jelszo)
+{
+    QByteArray data("REGISZTRACIO " + felhasznalonev.toLocal8Bit() + "," +  nev.toLocal8Bit() + "," + emailcim.toLocal8Bit() + "," + telefonszam.toLocal8Bit() + "," + jelszo.toLocal8Bit());
     socket->write(data);
 }

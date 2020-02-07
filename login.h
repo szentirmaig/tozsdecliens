@@ -2,8 +2,9 @@
 #define LOGIN_H
 
 #include <QDialog>
-#include "signup.h"
-#include "mainwindow.h"
+#include <QDebug>
+#include <QMessageBox>
+
 
 namespace Ui {
 class Login;
@@ -26,6 +27,8 @@ private slots:
 
 signals:
     void belepesellenorzes(QString,QString);
+    void mainwindownyitas();
+    void signupnyitas();
 
 private:
     Ui::Login *ui;

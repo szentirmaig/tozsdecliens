@@ -18,8 +18,7 @@ void Login::belepes(QByteArray uzenet)
     if(uzenet=="BELEPES helyes")
     {
         close();
-        MainWindow *w=new MainWindow(this);
-        w->show();
+        emit mainwindownyitas();
     }
     else if(uzenet=="BELEPES rossz jelszo")
     {
@@ -43,8 +42,7 @@ void Login::on_pushButton_ok_clicked()
 
 void Login::on_pushButton_regisztracio_clicked()
 {
-    SignUp *signup=new SignUp();
-    signup->show();
+    emit signupnyitas();
 }
 
 void Login::on_pushButton_kilepes_clicked()

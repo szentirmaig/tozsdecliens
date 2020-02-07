@@ -66,22 +66,7 @@ void SignUp::on_pushButton_ok_clicked()
         return;
     }
 
-    emit regisztracio(felhasznalonev,nev,emailcim,telefonszam,jelszo);
-
-//    QSqlQuery insertaccount;
-//    insertaccount.prepare("INSERT INTO felhasznalok VALUES(?,?,?,?,?)");
-//    insertaccount.addBindValue(felhasznalonev);
-//    insertaccount.addBindValue(nev);
-//    insertaccount.addBindValue(emailcim);
-//    insertaccount.addBindValue(telefonszam);
-//    insertaccount.addBindValue(jelszo);
-//    if(!insertaccount.exec())
-//    {
-//        QMessageBox::warning(this,tr("Hiba!"),tr("Nem tudjuk létrehozni a felhasználói fiókot!"));
-//        qDebug()<<insertaccount.lastError();
-//        return;
-//    }
-//    close();
+    emit regisztracioellenorzes(felhasznalonev,nev,emailcim,telefonszam,jelszo);
 }
 
 void SignUp::checkLineEdits()
@@ -94,5 +79,23 @@ void SignUp::checkLineEdits()
     else
     {
         ui->pushButton_ok->setEnabled (false);
+    }
+}
+
+void SignUp::regisztracio(QByteArray uzenet)
+{
+    if(uzenet=="REGISZTRACIO fiok hozzaadva")
+    {
+        close();
+    }
+    else if(uzenet=="REGISZTRACIO nem tudjuk letrehozni a felhasznaloi fiokot")
+    {
+        QMessageBox::warning(this,tr("Hiba!"),tr("Nem tudjuk létrehozni a felhasználói fiókot!"));
+        return;
+    }
+    else if(uzenet=="REGISZTRACIO a felhasznalonev mar foglalt")
+    {
+        QMessageBox::warning(this,tr("Hiba!"),tr("A felhasznalonév már foglalt!"));
+        return;
     }
 }
